@@ -1,0 +1,34 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: new-gateway
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: auth-login
+#          uri: lb://public-server
+#          predicates:
+#            - Path = /pub/login
+#          filters:
+#            -
+#        - id: doctor-server
+#          uri: lb://doctor-server
+#          predicates:
+#            - Path=/doctor/**
+#          filters:
+#            - RewritePath=/doctor(?<segment>/?.*), $\{segment}
+#        - id: public-server
+#            uri: lb://public-server
+#            predicates:
+#              - Path=/pub/**
+#            filters:
+#              - RewritePath=/pub(?<segment>/?.*), $\{segment}
+eureka:
+  client:
+    service-url:
+      default-zone: http://127.0.0.1:8761/eureka
+
+jwt:
+  expire: 600000
+  secret: rfkjdslfjdsklf;jdskfldsjflkdsffdsf

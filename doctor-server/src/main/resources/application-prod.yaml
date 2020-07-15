@@ -1,0 +1,22 @@
+server:
+  port: 16666
+spring:
+  application:
+    name: doctor-server
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://dbs:3306/drug?useUnicode=true&charcterEncoding=utf8&serverTimezone=Asia/Shanghai
+    password: 1234
+    username: root
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register:8761/eureka/

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ncu.doctor.dao.MrDao">
+
+    <resultMap id="mrMap" type="edu.ncu.commons.model.MedicalRecord">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="amount" property="amount"/>
+        <result column="contract" property="contract"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="self_paying" property="selfPaying"/>
+        <association property="departInfo" javaType="edu.ncu.commons.model.DepartInfo">
+            <id column="depart_id" property="id"/>
+            <result column="depart_name" property="departName"/>
+            <result column="depart_code" property="departCode"/>
+        </association>
+        <association property="doctor" javaType="edu.ncu.commons.model.EmployeeInfo">
+            <id column="doctor_id" property="id"/>
+            <result column="doctor_name" property="name"/>
+        </association>
+        <association property="operator" javaType="edu.ncu.commons.model.EmployeeInfo">
+            <id column="operator_id" property="id"/>
+            <result column="operator_name" property="name"/>
+        </association>
+    </resultMap>
+    <insert id="insertManyMrDrug">
+        insert into mr_drug (
+            drug_info_id,
+            mr_id,
+            drug_count
+        ) values
+        <foreach collection="list" separator="," item="mrDrug">
+            (#{mrDrug.drugInfoId},#{mrDrug.mrId},#{mrDrug.drugCount})
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update medical_record
+        <set>
+            <if test="payStatus!=null and payStatus!=''">
+                pay_status=#{payStatus},
+            </if>
+            <if test="amount!=null">
+                amount=#{amount}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="findById" resultMap="mrMap">
+        select
+        mr.*,
+        d.depart_name,
+        d.depart_code,
+        e.name doctor_name,
+        o.name operator_name
+        from medical_record mr
+        left join depart_info d on d.id = mr.depart_id
+        left join employee_info e on e.id = mr.doctor_id
+        left join employee_info o on o.id = mr.operator_id
+        where mr.id=#{id} and mr.del_flag!='1'
+    </select>
+
+</mapper>

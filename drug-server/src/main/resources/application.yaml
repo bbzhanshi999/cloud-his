@@ -1,0 +1,22 @@
+server:
+  port: 17777
+spring:
+  application:
+    name: drug-server
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/drug?useUnicode=true&charcterEncoding=utf8&serverTimezone=Asia/Shanghai
+    password: 1234
+    username: root
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+eureka:
+  client:
+    service-url:
+      default-zone: http://127.0.0.1:8761/eureka

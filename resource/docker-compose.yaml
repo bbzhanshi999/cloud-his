@@ -1,0 +1,54 @@
+version: '3'
+services:
+   cache-db:
+     image: redis:latest
+     expose:
+       - "6739"
+     ports:
+       - "6379:6379"
+   dbs:
+     image: mysql:5.6
+     volumes:
+       - /opt/resources/dbs/init.sql:/docker-entrypoint-initdb.d/init.sql
+       - /opt/resources/dbs/datas/:/var/lib/mysql/
+     environment:
+       MYSQL_ROOT_PASSWORD: 1234
+     expose:
+       - "3306"
+     ports:
+       - "3306:3306"
+   register:
+     build: ./register/
+     volumes:
+       - /opt/resources/register/register-server-0.0.1-SNAPSHOT.jar:/app/app.jar
+     expose:
+       - "8761"
+     ports:
+       - "8761:8761"
+   docker-front:
+     image: nginx:latest
+     volumes:
+       - /opt/resources/doctor_front/nginx.conf:/etc/nginx/nginx.conf
+       - /opt/resources/doctor_front/dist/:/usr/share/nginx/html/
+     expose:
+       - "80"
+     ports:
+       - "80:80"
+   gateway:
+     build: ./gateway/
+     volumes:
+       - /opt/resources/gateway/gateway-0.0.1-SNAPSHOT.jar:/app/app.jar
+     expose:
+       - "5555"
+   doctor-server:
+     build: ./doctor_server/
+     volumes:
+       -  /opt/resources/doctor_server/doctor-server-0.0.1-SNAPSHOT.jar:/app/app.jar
+     expose:
+       - "16666"
+   public-server:
+     build: ./public_server/
+     volumes:
+       - /opt/resources/public_server/public-server-0.0.1-SNAPSHOT.jar:/app/app.jar
+     expose:
+       - "19999"

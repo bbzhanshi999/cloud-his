@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ncu.pub.dao.DrugInfoDao">
+    
+    <select id="findList" resultType="edu.ncu.commons.model.DrugInfo">
+        select
+            id,
+            drug_name drugName,
+            drug_code drugCode,
+            unit,
+            price,
+            update_time updateTime
+        from drug_info
+        <where>
+            del_flag!="1"
+            <if test="drugName!=null and drugName!=''">
+                and drug_name like concat('%',#{drugName},'%')
+            </if>
+            <if test="drugCode!=null and drugCode!=''">
+                and drug_code=#{drugCode}
+            </if>
+        </where>
+    </select>
+    
+
+</mapper>

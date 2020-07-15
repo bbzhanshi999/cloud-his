@@ -1,0 +1,44 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: gateway
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register:8761/eureka
+auth:
+  authPaths:
+    - /doctor/**
+    - /drug/**
+    - /out/**
+    - /pub/**
+  loginPaths:
+    - /pub/login
+zuul:
+  routes:
+    doctor:
+      path: /doctor/**
+      serviceId: doctor-server
+    drug:
+      path: /drug/**
+      serviceId: drug-server
+    out:
+      path: /out/**
+      serviceId: out-server
+    pub:
+      path: /pub/**
+      serviceId: public-server
+ribbon:
+  ReadTimeout: 60000
+  SocketTimeout: 60000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+jwt:
+  expire: 600000
+  secret: rfkjdslfjdsklf;jdskfldsjflkdsffdsf
