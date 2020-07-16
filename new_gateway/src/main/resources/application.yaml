@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: new-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
 #  cloud:
 #    gateway:
 #      routes:
@@ -24,10 +30,7 @@ spring:
 #              - Path=/pub/**
 #            filters:
 #              - RewritePath=/pub(?<segment>/?.*), $\{segment}
-eureka:
-  client:
-    service-url:
-      default-zone: http://127.0.0.1:8761/eureka
+
 
 jwt:
   expire: 600000

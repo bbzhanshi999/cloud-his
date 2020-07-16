@@ -3,10 +3,12 @@ server:
 spring:
   application:
     name: gateway
-eureka:
-  client:
-    service-url:
-      default-zone: http://127.0.0.1:8761/eureka
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
 auth:
   authPaths:
     - /doctor/**
